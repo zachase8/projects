@@ -18,7 +18,8 @@ class DiGraph:
     
     def __init__(self, A, labels=None):
         """
-        Description
+        Load the adjacency matrix (A). Modify it to eliminate sinks and normalize the columns.
+        Save A and labels as attributes
         
         Parameters:
             A ((n,n) ndarray): The adjacency matrix of a directed graph
@@ -48,4 +49,23 @@ class DiGraph:
         # Normalize Columns and save the matrix as an attribute
         self.A = A/A.sum(axis=0)
 
+    def linsolve(self, epsilon = 0.85):
+        """
+        UPDATE
+        """
+        
+        #solve for p
+        p = np.linalg.solve(np.eye(self.n) - (epsilon*self.A),((1-epsilon)/self.n) * np.ones(self.n))
+        
+        #convert to dictionary
+        PageRankDict = {self.labels[i]:p[i] for i in range(self.n)}
+        
+        return PageRankDict
+        
+
+#    def eigensolve(self, epsilon = .85):
+        """
+        UPDATE
+        """
+        
         
